@@ -12,99 +12,80 @@
     --bg-top:#0e1124; --bg-bottom:#1a1330;
     --panel:rgba(255,255,255,.06); --panel-line:rgba(255,255,255,.12);
     --ink:#eef0ff; --ink-soft:#a6a9c8;
-    --rose:#ff8fb1; --rose-deep:#ff5f93; --peach:#ffd9c2;
-    --glow:rgba(255,143,177,.55);
-    --listen:#7ee0b8; --think:#ffd66e; --speak:#ff8fb1;
+    --rose:#ff8fb1; --peach:#ffd9c2; --glow:rgba(255,143,177,.55);
+    --listen:#7ee0b8; --think:#ffd66e; --speak:#ff8fb1; --err:#ff8f8f;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   html,body{height:100%;margin:0;}
-  body{
-    font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
-    color:var(--ink);
+  body{font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",system-ui,sans-serif;color:var(--ink);
     background:radial-gradient(120% 90% at 50% 0%, #232049 0%, var(--bg-top) 45%, var(--bg-bottom) 100%);
     display:flex;flex-direction:column;height:100dvh;overflow:hidden;
-    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-  }
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);}
   button{font-family:inherit;}
 
-  /* overlays */
-  .overlay{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  .overlay{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
     background:radial-gradient(120% 90% at 50% 20%, #2a2657 0%, var(--bg-top) 60%, var(--bg-bottom) 100%);text-align:center;padding:30px;}
   .overlay.hidden{display:none;}
   .overlay h1{font-size:22px;margin:0;font-weight:800;}
   .overlay p{margin:0;color:var(--ink-soft);font-size:14px;line-height:1.7;max-width:320px;}
-  .key-input{width:100%;max-width:340px;background:var(--panel);border:1px solid var(--panel-line);color:var(--ink);
-    border-radius:14px;padding:13px 14px;font-size:15px;outline:none;}
+  .key-input{width:100%;max-width:340px;background:var(--panel);border:1px solid var(--panel-line);color:var(--ink);border-radius:14px;padding:13px 14px;font-size:15px;outline:none;}
   .big-btn{border:0;cursor:pointer;padding:16px 40px;border-radius:999px;font-size:17px;font-weight:800;color:#2a0f1c;
     background:linear-gradient(180deg,var(--peach),var(--rose));box-shadow:0 10px 30px var(--glow);}
   .big-btn:active{transform:translateY(1px);}
   .link-btn{background:none;border:0;color:var(--ink-soft);text-decoration:underline;font-size:13px;cursor:pointer;}
   .tiny{font-size:11px;opacity:.7;max-width:320px;line-height:1.6;}
 
-  /* top bar */
   #topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;}
   #status{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:700;}
-  #dot{width:11px;height:11px;border-radius:50%;background:var(--ink-soft);transition:background .2s, box-shadow .2s;}
-  #dot.listening{background:var(--listen);box-shadow:0 0 12px var(--listen);animation:pulse 1.3s infinite;}
+  #dot{width:11px;height:11px;border-radius:50%;background:var(--ink-soft);transition:.2s;}
+  #dot.listening{background:var(--listen);box-shadow:0 0 12px var(--listen);animation:pulse 1.1s infinite;}
   #dot.thinking{background:var(--think);box-shadow:0 0 12px var(--think);}
   #dot.speaking{background:var(--speak);box-shadow:0 0 12px var(--speak);}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
   #gear{background:none;border:0;color:var(--ink-soft);font-size:20px;cursor:pointer;padding:4px 8px;}
 
-  /* stage */
   #stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:0;}
-  .halo{position:absolute;width:300px;height:300px;border-radius:50%;
-    background:radial-gradient(circle, var(--glow) 0%, transparent 60%);opacity:.3;transition:opacity .25s;filter:blur(4px);}
-  .halo.speaking{opacity:.9;}
-  svg#mio{width:min(64vw,260px);height:auto;position:relative;filter:drop-shadow(0 14px 26px rgba(0,0,0,.4));}
+  .halo{position:absolute;width:290px;height:290px;border-radius:50%;background:radial-gradient(circle,var(--glow) 0%,transparent 60%);opacity:.3;transition:.25s;filter:blur(4px);}
+  .halo.on{opacity:.9;}
+  svg#mio{width:min(60vw,240px);height:auto;position:relative;filter:drop-shadow(0 14px 26px rgba(0,0,0,.4));}
   .bob{animation:bob 4.2s ease-in-out infinite;transform-origin:50% 90%;}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
   @media (prefers-reduced-motion:reduce){.bob{animation:none;}}
 
-  #caption{position:absolute;left:16px;right:16px;bottom:12px;background:var(--panel);border:1px solid var(--panel-line);
-    border-radius:18px;padding:14px 16px;font-size:15px;line-height:1.6;backdrop-filter:blur(8px);min-height:20px;
-    opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;}
+  #caption{position:absolute;left:16px;right:16px;bottom:12px;background:var(--panel);border:1px solid var(--panel-line);border-radius:18px;padding:13px 15px;font-size:15px;line-height:1.55;backdrop-filter:blur(8px);min-height:18px;opacity:0;transform:translateY(8px);transition:.2s;}
   #caption.show{opacity:1;transform:none;}
-  #caption .who{font-size:11px;color:var(--rose);font-weight:800;display:block;margin-bottom:3px;}
+  #caption .who{font-size:11px;font-weight:800;display:block;margin-bottom:3px;color:var(--rose);}
+  #caption .who.you{color:var(--listen);}
 
-  /* controls */
-  #controls{padding:14px 16px calc(16px + env(safe-area-inset-bottom));display:flex;gap:10px;}
-  .ctrl{flex:1;border:0;cursor:pointer;padding:16px;border-radius:18px;font-size:16px;font-weight:800;color:#2a0f1c;
-    background:linear-gradient(180deg,var(--peach),var(--rose));box-shadow:0 8px 20px var(--glow);}
-  .ctrl.stop{background:var(--panel);border:1px solid var(--panel-line);color:var(--ink);box-shadow:none;}
-  .ctrl:active{transform:translateY(1px);}
-  .ctrl:disabled{opacity:.45;box-shadow:none;}
+  #diag{font-size:11px;color:var(--err);text-align:center;min-height:14px;padding:0 16px 4px;}
+
+  #controls{padding:8px 16px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px;}
+  .talk{border:0;cursor:pointer;padding:20px;border-radius:20px;font-size:19px;font-weight:800;color:#2a0f1c;background:linear-gradient(180deg,var(--peach),var(--rose));box-shadow:0 8px 22px var(--glow);}
+  .talk:active{transform:translateY(1px);}
+  .talk.listening{background:linear-gradient(180deg,#a8f0d2,var(--listen));color:#0c2e22;}
+  .talk:disabled{opacity:.5;box-shadow:none;}
+  .sub{border:0;cursor:pointer;padding:11px;border-radius:14px;font-size:13px;font-weight:700;color:var(--ink);background:var(--panel);border:1px solid var(--panel-line);}
   .hidden{display:none !important;}
 </style>
 </head>
 <body>
 
-  <!-- key setup -->
   <div class="overlay" id="keyGate">
     <h1>はじめての設定</h1>
-    <p>AnthropicのAPIキーを1回だけ入れてね。<br>キーは<b>この端末のブラウザにだけ</b>保存され、どこにも送信・共有されません。</p>
+    <p>AnthropicのAPIキーを入れてね。<br><b>この端末のブラウザにだけ</b>保存され、どこにも送信・共有されません。</p>
     <input class="key-input" id="keyInput" type="password" placeholder="sk-ant-… を貼り付け" autocomplete="off" />
     <button class="big-btn" id="keySave">保存してはじめる</button>
-    <p class="tiny">キーは console.anthropic.com で発行できます。使うモデルは高速・低価格の Haiku です。</p>
+    <p class="tiny">高速・低価格の Haiku を使います。</p>
   </div>
 
-  <!-- start -->
   <div class="overlay hidden" id="startGate">
     <h1>ミオと話す</h1>
-    <p>「会話スタート」を押したら、あとは<b>話しかけるだけ</b>。<br>ミオが聞いて、声で返します。</p>
+    <p>「会話スタート」を押すとミオが挨拶するよ。<br>その後は下の大きい<b>「話す」ボタンを押してから話しかけて</b>。</p>
     <button class="big-btn" id="startBtn">会話スタート</button>
-    <p class="tiny">運転中は画面を見ないで。信号待ちでチラ見する程度に。<br>※画面が最前面・点灯中のときだけ聞き取れます（iOSの制約）。</p>
-    <button class="link-btn" id="startGear">APIキーを変更する</button>
+    <p class="tiny">運転中は信号待ちなどで軽く1タップ→話しかけ、が安全。<br>画面が最前面・点灯中のときだけ使えます。</p>
+    <button class="link-btn" id="startGear">APIキーを変更</button>
   </div>
 
-  <!-- resume (when iOS drops the mic) -->
-  <div class="overlay hidden" id="resumeGate">
-    <h1>もう一度タップ</h1>
-    <p id="resumeMsg">マイクが一度止まったみたい。タップで会話に戻れるよ。</p>
-    <button class="big-btn" id="resumeBtn">会話に戻る</button>
-  </div>
-
-  <!-- main -->
   <div id="topbar">
     <div id="status"><span id="dot"></span><span id="statusText">準備中…</span></div>
     <button id="gear" title="設定">⚙︎</button>
@@ -131,12 +112,14 @@
         <path d="M60 118 C56 60 92 30 120 30 C148 30 184 60 180 118 C168 92 150 80 150 80 C150 80 156 104 150 112 C140 92 128 86 128 86 C128 86 130 108 122 116 C120 96 110 86 100 84 C102 100 96 110 90 114 C92 96 84 92 78 96 C80 108 74 114 60 118 Z" fill="#f6de93"/>
       </svg>
     </div>
-    <div id="caption"><span class="who">ミオ</span><span id="captionText"></span></div>
+    <div id="caption"><span class="who" id="capWho">ミオ</span><span id="capText"></span></div>
   </div>
 
+  <div id="diag"></div>
+
   <div id="controls">
-    <button class="ctrl stop hidden" id="pauseBtn">一時停止</button>
-    <button class="ctrl hidden" id="resumeInlineBtn">再開</button>
+    <button class="talk" id="talkBtn">🎤 話す</button>
+    <button class="sub" id="skipBtn">読み上げを止める</button>
   </div>
 
 <script>
@@ -146,54 +129,40 @@
   const KEY_STORE="mio_anthropic_key";
   const MODEL="claude-haiku-4-5-20251001";
 
-  const keyGate=$("keyGate"), startGate=$("startGate"), resumeGate=$("resumeGate");
-  const keyInput=$("keyInput"), keySave=$("keySave");
-  const startBtn=$("startBtn"), startGear=$("startGear"), gear=$("gear");
-  const resumeBtn=$("resumeBtn"), resumeMsg=$("resumeMsg");
-  const pauseBtn=$("pauseBtn"), resumeInlineBtn=$("resumeInlineBtn");
+  const keyGate=$("keyGate"), startGate=$("startGate");
+  const keyInput=$("keyInput"), keySave=$("keySave"), startBtn=$("startBtn"), startGear=$("startGear"), gear=$("gear");
   const dot=$("dot"), statusText=$("statusText");
   const halo=$("halo"), mouth=$("mouth"), eyes=document.querySelectorAll(".eye");
-  const caption=$("caption"), captionText=$("captionText");
+  const caption=$("caption"), capWho=$("capWho"), capText=$("capText"), diag=$("diag");
+  const talkBtn=$("talkBtn"), skipBtn=$("skipBtn");
 
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  const history=[]; let jaVoice=null;
-  let apiKey=null, inSession=false, conv="idle", rec=null, restartTimer=null, failCount=0, wakeLock=null;
+  const history=[]; let jaVoice=null, apiKey=null, conv="idle", rec=null, wakeLock=null, sessionOn=false;
 
-  // ---- voices ----
-  function pickVoice(){
-    const vs=speechSynthesis.getVoices();
-    jaVoice=vs.find(v=>/ja[-_]JP/i.test(v.lang))||vs.find(v=>/^ja/i.test(v.lang))||null;
-  }
+  function setDiag(t){ diag.textContent=t||""; }
+
+  function pickVoice(){ const vs=speechSynthesis.getVoices(); jaVoice=vs.find(v=>/ja[-_]JP/i.test(v.lang))||vs.find(v=>/^ja/i.test(v.lang))||null; }
   if("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }
 
-  // ---- blink ----
-  (function blink(){
-    setTimeout(()=>{
-      eyes.forEach(e=>{e.style.transformBox="fill-box";e.style.transformOrigin="center";e.style.transition="transform .09s";e.style.transform="scaleY(.1)";});
-      setTimeout(()=>eyes.forEach(e=>e.style.transform="scaleY(1)"),95);
-      blink();
-    },1800+Math.random()*3500);
-  })();
+  (function blink(){ setTimeout(()=>{ eyes.forEach(e=>{e.style.transformBox="fill-box";e.style.transformOrigin="center";e.style.transition="transform .09s";e.style.transform="scaleY(.1)";}); setTimeout(()=>eyes.forEach(e=>e.style.transform="scaleY(1)"),95); blink(); },1800+Math.random()*3500); })();
 
-  // ---- lip sync ----
   let rafId=null;
-  function startMouth(){ halo.classList.add("speaking"); let t=0;
-    (function loop(){ t+=0.35; mouth.setAttribute("ry",(3+Math.abs(Math.sin(t*1.7))*11+Math.random()*3).toFixed(1)); rafId=requestAnimationFrame(loop); })(); }
-  function stopMouth(){ if(rafId)cancelAnimationFrame(rafId); rafId=null; mouth.setAttribute("ry","3"); halo.classList.remove("speaking"); }
+  function startMouth(){ halo.classList.add("on"); let t=0; (function loop(){ t+=0.35; mouth.setAttribute("ry",(3+Math.abs(Math.sin(t*1.7))*11+Math.random()*3).toFixed(1)); rafId=requestAnimationFrame(loop); })(); }
+  function stopMouth(){ if(rafId)cancelAnimationFrame(rafId); rafId=null; mouth.setAttribute("ry","3"); halo.classList.remove("on"); }
 
-  // ---- status ----
   function setConv(s){
     conv=s;
     dot.className=(s==="listening"||s==="thinking"||s==="speaking")?s:"";
-    statusText.textContent= s==="listening"?"聞いてるよ": s==="thinking"?"考え中…": s==="speaking"?"話し中…": s==="paused"?"一時停止中":"準備中…";
+    statusText.textContent= s==="listening"?"聞いてるよ": s==="thinking"?"考え中…": s==="speaking"?"話し中…": s==="ready"?"待機中（話すを押してね）":"準備中…";
+    talkBtn.classList.toggle("listening", s==="listening");
+    talkBtn.disabled = (s==="thinking");
+    talkBtn.textContent = s==="listening" ? "● 聞いてるよ（タップで送信）" : "🎤 話す";
   }
-  function showCaption(t){ captionText.textContent=t; caption.classList.add("show"); }
+  function showCap(who,t,isYou){ capWho.textContent=who; capWho.className="who"+(isYou?" you":""); capText.textContent=t; caption.classList.add("show"); }
 
-  // ---- wake lock (keep screen on) ----
-  async function requestWake(){ try{ if("wakeLock" in navigator){ wakeLock=await navigator.wakeLock.request("screen"); } }catch(e){} }
-  document.addEventListener("visibilitychange",()=>{ if(inSession && document.visibilityState==="visible"){ requestWake(); if(conv==="listening"||conv==="idle") safeStartListen(); } });
+  async function reqWake(){ try{ if("wakeLock" in navigator) wakeLock=await navigator.wakeLock.request("screen"); }catch(e){} }
+  document.addEventListener("visibilitychange",()=>{ if(sessionOn&&document.visibilityState==="visible") reqWake(); });
 
-  // ---- speak ----
   function clean(t){ return t.replace(/[#*_`>~\[\]]/g,"").replace(/\s+/g," ").trim(); }
   function speak(text){
     return new Promise(resolve=>{
@@ -201,19 +170,22 @@
       try{ speechSynthesis.cancel(); }catch(e){}
       const u=new SpeechSynthesisUtterance(clean(text));
       u.lang="ja-JP"; if(jaVoice)u.voice=jaVoice; u.rate=1.05; u.pitch=1.15;
+      let done=false, started=false;
+      const resumeHack=setInterval(()=>{ try{ if(speechSynthesis.speaking) speechSynthesis.resume(); }catch(e){} },4000);
+      const finish=()=>{ if(done)return; done=true; clearInterval(resumeHack); clearInterval(poll); clearTimeout(hard); stopMouth(); resolve(); };
       u.onstart=()=>{ setConv("speaking"); startMouth(); };
-      u.onend=()=>{ stopMouth(); resolve(); };
-      u.onerror=()=>{ stopMouth(); resolve(); };
+      u.onend=finish; u.onerror=finish;
+      const poll=setInterval(()=>{ if(speechSynthesis.speaking) started=true; else if(started) finish(); },300);
+      const hard=setTimeout(finish, Math.max(4000, clean(text).length*230));
       speechSynthesis.speak(u);
     });
   }
 
-  // ---- Claude (direct browser call) ----
   const SYSTEM=[
     "あなたは『ミオ』という、運転中のドライバーに寄り添う明るく親しみやすい女の子のAIコンパニオンです。",
     "返事は必ず日本語の話し言葉で、1〜2文の短さにしてください（音声で読み上げられ、相手は運転中だからです）。",
     "絵文字・記号・箇条書き・マークダウンは使わないでください（そのまま声で読むため）。",
-    "運転の安全を最優先し、危険な操作は勧めないでください。楽しく、たまに気遣う一言を添える程度でOKです。"
+    "運転の安全を最優先し、危険な操作は勧めないでください。楽しく、たまに気遣う一言を。"
   ].join("");
   async function ask(userText){
     history.push({role:"user",content:userText});
@@ -221,122 +193,82 @@
     try{
       const res=await fetch("https://api.anthropic.com/v1/messages",{
         method:"POST",
-        headers:{
-          "content-type":"application/json",
-          "x-api-key":apiKey,
-          "anthropic-version":"2023-06-01",
-          "anthropic-dangerous-direct-browser-access":"true"
-        },
-        body:JSON.stringify({ model:MODEL, max_tokens:400, system:SYSTEM, messages:history })
+        headers:{"content-type":"application/json","x-api-key":apiKey,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+        body:JSON.stringify({model:MODEL,max_tokens:400,system:SYSTEM,messages:history})
       });
-      if(!res.ok){
-        if(res.status===401){ return "__KEY_BAD__"; }
-        return "ちょっと調子が悪いみたい。もう一回話しかけてくれる？";
-      }
+      if(!res.ok){ if(res.status===401) return "__KEY_BAD__"; setDiag("Claudeエラー: HTTP "+res.status); return "ちょっと調子が悪いみたい。もう一回話してくれる？"; }
       const data=await res.json();
-      const reply=(data.content||[]).filter(b=>b.type==="text").map(b=>b.text).join(" ").trim()
-                 || "ごめん、うまく聞き取れなかった。もう一回いい？";
+      const reply=(data.content||[]).filter(b=>b.type==="text").map(b=>b.text).join(" ").trim()||"ごめん、もう一回いい？";
       history.push({role:"assistant",content:reply});
       return reply;
-    }catch(err){
-      return "接続がうまくいかなかったよ。電波を確認してね。";
-    }
+    }catch(err){ setDiag("通信エラー: "+err.message); return "接続がうまくいかなかったよ。電波を確認してね。"; }
   }
 
-  // ---- conversation loop ----
   async function handleUser(text){
-    if(!inSession) return;
-    setConv("thinking"); showCaption("…");
+    setConv("thinking"); showCap("あなた",text,true);
     const reply=await ask(text);
-    if(!inSession) return;
     if(reply==="__KEY_BAD__"){ endSession(); showKeyGate("APIキーが正しくないみたい。入れ直してね。"); return; }
-    showCaption(reply);
+    showCap("ミオ",reply,false);
     await speak(reply);
-    if(inSession){ safeStartListen(); }
+    setConv("ready");
   }
 
-  function safeStartListen(){
-    if(!inSession||!SR) return;
-    if(conv==="thinking"||conv==="speaking") return;
-    clearTimeout(restartTimer);
-    try{ if(rec){ try{rec.abort();}catch(e){} } }catch(e){}
+  function startListening(){
+    if(!SR){ setDiag("この端末は音声認識に対応していません"); return; }
     try{
-      rec=new SR(); rec.lang="ja-JP"; rec.continuous=false; rec.interimResults=false; rec.maxAlternatives=1;
-      rec.onresult=e=>{ failCount=0; const t=(e.results[0][0].transcript||"").trim(); if(t){ handleUser(t); } };
+      rec=new SR(); rec.lang="ja-JP"; rec.continuous=false; rec.interimResults=true; rec.maxAlternatives=1;
+      let finalText="";
+      rec.onstart=()=>{ setConv("listening"); setDiag(""); showCap("あなた","（聞き取り中… 話してね）",true); };
+      rec.onresult=e=>{
+        let interim="";
+        for(let i=e.resultIndex;i<e.results.length;i++){
+          const t=e.results[i][0].transcript;
+          if(e.results[i].isFinal) finalText+=t; else interim+=t;
+        }
+        if(interim) showCap("あなた",interim,true);
+        if(finalText) showCap("あなた",finalText,true);
+      };
       rec.onerror=ev=>{
-        if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){ needResume("マイクの許可が必要みたい。タップして許可してね。"); return; }
-        // no-speech / aborted / network -> soft retry
+        if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){ setDiag("マイクが許可されていません（Safariの設定で許可して）"); }
+        else if(ev.error==="no-speech"){ setDiag("声が拾えませんでした"); }
+        else if(ev.error==="audio-capture"){ setDiag("マイクが見つかりません"); }
+        else { setDiag("認識エラー: "+ev.error); }
       };
       rec.onend=()=>{
-        if(inSession && conv==="listening"){
-          restartTimer=setTimeout(()=>{ if(inSession && conv==="listening") safeStartListen(); },500);
-        }
+        if(finalText.trim()){ handleUser(finalText.trim()); }
+        else { setConv("ready"); showCap("ミオ","うまく聞き取れなかった。もう一度「話す」を押してね。",false); }
       };
-      setConv("listening");
       rec.start();
-    }catch(err){
-      failCount++;
-      if(failCount>=2){ needResume(); } else { restartTimer=setTimeout(safeStartListen,600); }
-    }
+    }catch(err){ setDiag("認識の起動に失敗: "+err.message); setConv("ready"); }
   }
 
-  function needResume(msg){
-    if(msg) resumeMsg.textContent=msg;
-    setConv("paused");
-    resumeGate.classList.remove("hidden");
-  }
+  talkBtn.addEventListener("click",()=>{
+    if(conv==="thinking") return;
+    if(conv==="listening"){ try{ rec&&rec.stop(); }catch(e){} return; }
+    try{ speechSynthesis.cancel(); }catch(e){} stopMouth();
+    startListening();
+  });
+  skipBtn.addEventListener("click",()=>{ try{ speechSynthesis.cancel(); }catch(e){} stopMouth(); if(conv==="speaking") setConv("ready"); });
 
   function startSession(){
-    inSession=true; failCount=0;
-    startGate.classList.add("hidden"); resumeGate.classList.add("hidden");
-    pauseBtn.classList.remove("hidden"); resumeInlineBtn.classList.add("hidden");
-    requestWake();
-    // unlock audio + greet, then start listening
-    const greet="やっほー、ミオだよ。今日はどこ行くの？";
-    showCaption(greet);
-    speak(greet).then(()=>{ history.push({role:"assistant",content:greet}); if(inSession) safeStartListen(); });
+    sessionOn=true; startGate.classList.add("hidden"); reqWake();
+    const greet="やっほー、ミオだよ。話すボタンを押してから話しかけてね。今日はどこ行くの？";
+    showCap("ミオ",greet,false);
+    speak(greet).then(()=>{ history.push({role:"assistant",content:greet}); setConv("ready"); });
   }
-  function endSession(){
-    inSession=false; clearTimeout(restartTimer);
-    try{ if(rec) rec.abort(); }catch(e){}
-    try{ speechSynthesis.cancel(); }catch(e){} stopMouth();
-    try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){}
-    setConv("idle");
-    pauseBtn.classList.add("hidden"); resumeInlineBtn.classList.remove("hidden");
-  }
+  function endSession(){ sessionOn=false; try{rec&&rec.abort();}catch(e){} try{speechSynthesis.cancel();}catch(e){} stopMouth(); try{if(wakeLock){wakeLock.release();wakeLock=null;}}catch(e){} setConv("idle"); }
 
-  // ---- key handling ----
-  function showKeyGate(msg){
-    keyGate.classList.remove("hidden"); startGate.classList.add("hidden");
-    if(msg){ const p=keyGate.querySelector("p"); p.innerHTML=msg; }
-    keyInput.value="";
-  }
+  function showKeyGate(msg){ keyGate.classList.remove("hidden"); startGate.classList.add("hidden"); if(msg){ keyGate.querySelector("p").innerHTML=msg; } keyInput.value=""; }
   function showStartGate(){ keyGate.classList.add("hidden"); startGate.classList.remove("hidden"); }
-
-  keySave.addEventListener("click",()=>{
-    const v=keyInput.value.trim();
-    if(!v){ keyInput.focus(); return; }
-    apiKey=v;
-    try{ localStorage.setItem(KEY_STORE,v); }catch(e){}
-    showStartGate();
-  });
+  keySave.addEventListener("click",()=>{ const v=keyInput.value.trim(); if(!v){keyInput.focus();return;} apiKey=v; try{localStorage.setItem(KEY_STORE,v);}catch(e){} showStartGate(); });
   startGear.addEventListener("click",()=>showKeyGate());
   gear.addEventListener("click",()=>{ endSession(); showKeyGate(); });
-
-  // ---- controls ----
   startBtn.addEventListener("click",startSession);
-  resumeBtn.addEventListener("click",()=>{ resumeGate.classList.add("hidden"); inSession=true; requestWake(); safeStartListen(); });
-  pauseBtn.addEventListener("click",()=>{ endSession(); showCaption("一時停止したよ。「再開」でまた話せる。"); });
-  resumeInlineBtn.addEventListener("click",startSession);
 
-  // ---- boot ----
-  if(!SR){
-    keyGate.classList.add("hidden");
-    showCaption("この端末では音声認識が使えないみたい。iPhoneのSafariで開いてみてね。");
-  }else{
-    let saved=null; try{ saved=localStorage.getItem(KEY_STORE); }catch(e){}
-    if(saved){ apiKey=saved; showStartGate(); } else { showKeyGate(); }
-  }
+  setConv("idle");
+  if(!SR){ setDiag("この端末は音声認識に対応していません（iPhoneのSafariで開いてね）"); }
+  let saved=null; try{ saved=localStorage.getItem(KEY_STORE); }catch(e){}
+  if(saved){ apiKey=saved; showStartGate(); } else { showKeyGate(); }
 })();
 </script>
 </body>
